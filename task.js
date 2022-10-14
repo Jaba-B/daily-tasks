@@ -1,24 +1,36 @@
-// Duplicate Zeros
+// Replace Elements with Greatest Element on Right Side
+// Given an array arr, replace every element in that array with the greatest element among the 
+// elements to its right, and replace the last element with -1. After doing so, return the array.
 
-let arr = [1,0,2,3,0,4,5,0]
-
-function duplicateZeros(arr) {
-  let addedZeros = 0;  // 1
-  let copyedArray = [...arr];  // 1
-  for (let i = 0; i < copyedArray.length; i++) {  // O(n)
-    if (copyedArray[i] === 0 ) {
-      arr.splice(i + addedZeros, 0, 0);
-      arr.pop();
-      addedZeros += 1;
-    }
+function greatestElOnRSide(arr) {
+  let maxNum = arr[arr.length - 1]; // 1
+  let newArr = [-1]; // 1
+  if( arr.length <= 1 ) { // 1
+    return newArr
   }
+  for (let i = arr.length - 1; i > 0; i-- ) { // O(n)
+    if (arr[i] >= maxNum) {
+      maxNum = arr[i]
+    }
+    newArr.unshift(maxNum)
+  }
+  return newArr  // 1
 }
 
-duplicateZeros(arr);
-console.log(arr)
+let arr = [17,18,5,4,6,1];
 
-// Time complexity = O(n) + 2 = O(n)
+console.log(greatestElOnRSide(arr));
+console.log(greatestElOnRSide([400]));
 
-//Example 1:  Input: arr = [1,0,2,3,0,4,5,0];  Output: [1,0,0,2,3,0,0,4];  
+// Time complexity = O(n) + 4 = O(n)
 
-//Example 2: Input: arr = [1,2,3];  Output: [1,2,3];
+//Example 1:  Input: arr = [400];  Output: [-1];
+
+//Example 2: Input: arr = [17,18,5,4,6,1];  Output: [18,6,6,6,1,-1];
+// Explanation: 
+// - index 0 --> the greatest element to the right of index 0 is index 1 (18).
+// - index 1 --> the greatest element to the right of index 1 is index 4 (6).
+// - index 2 --> the greatest element to the right of index 2 is index 4 (6).
+// - index 3 --> the greatest element to the right of index 3 is index 4 (6).
+// - index 4 --> the greatest element to the right of index 4 is index 5 (1).
+// - index 5 --> there are no elements to the right of index 5, so we put -1.
