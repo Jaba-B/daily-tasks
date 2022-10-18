@@ -1,36 +1,38 @@
-// Replace Elements with Greatest Element on Right Side
-// Given an array arr, replace every element in that array with the greatest element among the 
-// elements to its right, and replace the last element with -1. After doing so, return the array.
+// Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes 
+// the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
 
-function greatestElOnRSide(arr) {
-  let maxNum = arr[arr.length - 1]; // 1
-  let newArr = [-1]; // 1
-  if( arr.length <= 1 ) { // 1
-    return newArr
+function reverseInt(num) {
+  if(num < (-(Math.pow(2, 31)) || num > (Math.pow(2, 31) - 1))) {  // 1
+    return 0
   }
-  for (let i = arr.length - 1; i > 0; i-- ) { // O(n)
-    if (arr[i] >= maxNum) {
-      maxNum = arr[i]
+  const splittedNum = num.toString().split('');  // 1
+  let positiveResult = ''; // 1
+  let negativeResult = '-'; // 1
+  if(num >= 0) {  // 1 + 1 + 1 O(n)
+      for (let i = splittedNum.length - 1; i >= 0; i--) {
+    if(splittedNum[i] !== 0) {
+      positiveResult += splittedNum[i];
+      }
     }
-    newArr.unshift(maxNum)
+        return +positiveResult
+  } else {                                                
+    for (let i = splittedNum.length - 1; i > 0; i--) {
+    if(splittedNum[i] !== 0) {
+      negativeResult += splittedNum[i];
+      }
+    }
+      return +negativeResult
   }
-  return newArr  // 1
 }
 
-let arr = [17,18,5,4,6,1];
+console.log(reverseInt(120))
+console.log(reverseInt(-123))
+console.log(reverseInt(123))
 
-console.log(greatestElOnRSide(arr));
-console.log(greatestElOnRSide([400]));
+// Time complexity = 7 + O(n) = O(n)
 
-// Time complexity = O(n) + 4 = O(n)
+//Example 1:  Input: x = 123;  Output: 321;
 
-//Example 1:  Input: arr = [400];  Output: [-1];
+//Example 2: Input: x = -123; Output: -321;
 
-//Example 2: Input: arr = [17,18,5,4,6,1];  Output: [18,6,6,6,1,-1];
-// Explanation: 
-// - index 0 --> the greatest element to the right of index 0 is index 1 (18).
-// - index 1 --> the greatest element to the right of index 1 is index 4 (6).
-// - index 2 --> the greatest element to the right of index 2 is index 4 (6).
-// - index 3 --> the greatest element to the right of index 3 is index 4 (6).
-// - index 4 --> the greatest element to the right of index 4 is index 5 (1).
-// - index 5 --> there are no elements to the right of index 5, so we put -1.
+//Example 3: Input: x = 120; Output: 21;
