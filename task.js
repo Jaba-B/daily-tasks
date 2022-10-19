@@ -1,38 +1,60 @@
-// Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes 
-// the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+// Valid Palindrome - My solution
 
-function reverseInt(num) {
-  if(num < (-(Math.pow(2, 31)) || num > (Math.pow(2, 31) - 1))) {  // 1
-    return 0
-  }
-  const splittedNum = num.toString().split('');  // 1
-  let positiveResult = ''; // 1
-  let negativeResult = '-'; // 1
-  if(num >= 0) {  // 1 + 1 + 1 O(n)
-      for (let i = splittedNum.length - 1; i >= 0; i--) {
-    if(splittedNum[i] !== 0) {
-      positiveResult += splittedNum[i];
-      }
+// A phrase is a palindrome if, after converting all uppercase letters into lowercase letters 
+// and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+// Given a string s, return true if it is a palindrome, or false otherwise.
+
+function palindrome(str) {
+  let result = '';  // 1
+      for (let i = 0; i < str.length; i++) {   // O(n)
+        if (str[i] >= 'A' && str[i] <= 'z') result += str[i].toLowerCase();
     }
-        return +positiveResult
-  } else {                                                
-    for (let i = splittedNum.length - 1; i > 0; i--) {
-    if(splittedNum[i] !== 0) {
-      negativeResult += splittedNum[i];
-      }
+  for (let i = 0; i < result.length / 2; i++) {    // O(n/2)
+    if(result[i] !== result[result.length - 1 - i]) {
+	return false
     }
-      return +negativeResult
-  }
+  } 
+   return true  // 1
 }
 
-console.log(reverseInt(120))
-console.log(reverseInt(-123))
-console.log(reverseInt(123))
+console.log(palindrome("A man, a plan, a canal: Panama"))
+console.log(palindrome("race a car"))
+console.log(palindrome(""))
 
-// Time complexity = 7 + O(n) = O(n)
+// Timpe Complexity = 2 + O(n) + O(n/2) = O(n)
 
-//Example 1:  Input: x = 123;  Output: 321;
+// Exapmle 1: Input: s = "A man, a plan, a canal: Panama";  Output: true;  Explanation: "amanaplanacanalpanama" is a palindrome.
+// Example 2: Input: s = "race a car"; Output: false; Explanation: "raceacar" is not a palindrome.
+// Example 3: Input: s = " "; Output: true; Explanation: Since an empty string reads the same forward and backward, it is a palindrome.
 
-//Example 2: Input: x = -123; Output: -321;
 
-//Example 3: Input: x = 120; Output: 21;
+
+// Valid Palindrome II - My solution
+
+// Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+
+function palindrome(str) {
+  for (let i =0; i < str.length; i++) {  // O(n)
+    let newStr = str.slice(0, i) + str.slice(i+1, str.length);
+    let mistake = 0; 
+    for (let j = 0; j < newStr.length / 2; j++) { // O(n/2)
+      if(newStr[j] !== newStr[newStr.length - 1 - j]) {
+        mistake += 1
+      }
+    }
+    if(mistake === 0) {  // 1
+      return true
+    }
+  }
+  return false  // 1
+}
+
+console.log(palindrome('aba'))
+console.log(palindrome('abca'))
+console.log(palindrome('abc'))
+
+// Time copmlexity = O(n) x O(n/2) + 2 = O(n²)
+
+// Example 1: Input: s = "aba"; Output: true;
+// Example 2: Input: s = "abca"; Output: true; Explanation: You could delete the character 'c';
+// Example 3: Input: s = "abc"; Output: false;
