@@ -1,60 +1,61 @@
-// Valid Palindrome - My solution
+// Length of Last Word
 
-// A phrase is a palindrome if, after converting all uppercase letters into lowercase letters 
-// and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
-// Given a string s, return true if it is a palindrome, or false otherwise.
+// Given a string s consisting of words and spaces, return the length of the last word in the string.
+// A word is a maximal substring consisting of non-space characters only.
 
-function palindrome(str) {
-  let result = '';  // 1
-      for (let i = 0; i < str.length; i++) {   // O(n)
-        if (str[i] >= 'A' && str[i] <= 'z') result += str[i].toLowerCase();
-    }
-  for (let i = 0; i < result.length / 2; i++) {    // O(n/2)
-    if(result[i] !== result[result.length - 1 - i]) {
-	return false
-    }
-  } 
-   return true  // 1
+function lengthOfTheLastWord(str) {
+  const arrWithoutWSpaces = str.replace(/^\s+|\s+$/gm,'').split(' ');
+  return arrWithoutWSpaces[arrWithoutWSpaces.length - 1].length
 }
 
-console.log(palindrome("A man, a plan, a canal: Panama"))
-console.log(palindrome("race a car"))
-console.log(palindrome(""))
 
-// Timpe Complexity = 2 + O(n) + O(n/2) = O(n)
+// Time complexity - O(n)
 
-// Exapmle 1: Input: s = "A man, a plan, a canal: Panama";  Output: true;  Explanation: "amanaplanacanalpanama" is a palindrome.
-// Example 2: Input: s = "race a car"; Output: false; Explanation: "raceacar" is not a palindrome.
-// Example 3: Input: s = " "; Output: true; Explanation: Since an empty string reads the same forward and backward, it is a palindrome.
+// console.log(lengthOfTheLastWord("Hello World"))
+// console.log(lengthOfTheLastWord("   fly me   to   the moon  "))
+// console.log(lengthOfTheLastWord("luffy is still joyboy"));
+
+// Example 1: Input: s = "Hello World"; Output: 5; Explanation: The last word is "World" with length 5.
+// Example 2: Input: s = "   fly me   to   the moon  ";  Output: 4; Explanation: The last word is "moon" with length 4.
+// Example 3: Input: s = "luffy is still joyboy";   Output: 6;  Explanation: The last word is "joyboy" with length 6.
 
 
+// Unique Email Addresses
 
-// Valid Palindrome II - My solution
+// Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
+// For example, in "alice@leetcode.com", "alice" is the local name, and "leetcode.com" is the domain name.
+// If you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in
+// the local name. Note that this rule does not apply to domain names.
+// For example, "alice.z@leetcode.com" and "alicez@leetcode.com" forward to the same email address.
+// If you add a plus '+' in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered. Note that this rule does
+// not apply to domain names. For example, "m.y+name@email.com" will be forwarded to "my@email.com". It is possible to use both of these rules at the same time.
+// Given an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.
 
-// Given a string s, return true if the s can be palindrome after deleting at most one character from it.
-
-function palindrome(str) {
-  for (let i =0; i < str.length; i++) {  // O(n)
-    let newStr = str.slice(0, i) + str.slice(i+1, str.length);
-    let mistake = 0; 
-    for (let j = 0; j < newStr.length / 2; j++) { // O(n/2)
-      if(newStr[j] !== newStr[newStr.length - 1 - j]) {
-        mistake += 1
-      }
+function UniqueEmailAddresses(arr) {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    let localName;
+    let domainName;
+    if(arr[i].indexOf('+') >= 0) { 
+      localName = arr[i].slice(0, arr[i].indexOf('+')).replaceAll('.', '');
+      domainName = arr[i].slice(arr[i].indexOf('@'), arr[i].length);
+    } else {
+      localName = arr[i].slice(0, arr[i].indexOf('@')).replaceAll('.', '');
+      domainName = arr[i].slice(arr[i].indexOf('@'), arr[i].length);
     }
-    if(mistake === 0) {  // 1
-      return true
+    if(newArr.indexOf(localName + domainName) === -1) {
+      newArr.push(localName + domainName)
     }
   }
-  return false  // 1
+  return newArr.length
 }
 
-console.log(palindrome('aba'))
-console.log(palindrome('abca'))
-console.log(palindrome('abc'))
+// Time complexity = O(n)
+  
+console.log(UniqueEmailAddresses(["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]))
+console.log(UniqueEmailAddresses(["a@leetcode.com","b@leetcode.com","c@leetcode.com"]));
 
-// Time copmlexity = O(n) x O(n/2) + 2 = O(n²)
+// Exapmle 1: Input: emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]; Output: 2
+// "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails.
 
-// Example 1: Input: s = "aba"; Output: true;
-// Example 2: Input: s = "abca"; Output: true; Explanation: You could delete the character 'c';
-// Example 3: Input: s = "abc"; Output: false;
+// Example 2: Input: emails = ["a@leetcode.com","b@leetcode.com","c@leetcode.com"]; Output: 3;
